@@ -1,0 +1,58 @@
+:root {
+    --bg:#dce8ef;
+    --text:#000;
+    --card: #e6f1f8;
+    --button: #96c5ff;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+html, body {
+    height:100%;
+    margin:0;
+}
+
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+button {
+    background: var(--button);
+    color: var(--text);
+    border: none;
+    border-radius: 8px;
+    padding: 10px;
+    font-weight: 600;
+}
+
+button:hover {
+    background: #60a5fa;
+    cursor: pointer;
+}
+
+.card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.output {
+    background-color: var(--card);
+    color: var(--text);
+    border: 1px solid var(--text);
+    border-radius: 5px;
+    display: flex;
+    flex-direction: row;
+    margin-top: 10px;
+    padding: 10px;
+    justify-content: center;
+    align-items: center;
+}
