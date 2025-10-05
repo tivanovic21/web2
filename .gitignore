@@ -1,4 +1,8 @@
 node_modules
 dist
-db-upute.txt
+upute.txt
 .env
+server.cert
+server.key
+.DS_Store
+.vscode

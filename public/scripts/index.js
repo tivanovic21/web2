@@ -1,24 +1,27 @@
 const out = document.getElementById('output');
+const loginBtn = document.getElementById('login');
+const logoutBtn = document.getElementById('logout');
 
-document.getElementById('ping')?.addEventListener('click', async () => {
-  out.textContent = 'Pinging...';
-  try {
-    const res = await fetch('/api/ping');
-    const text = await res.text();
-    out.textContent = text;
-  } catch (err) {
-    out.textContent = String(err);
-  }
-});
+document.addEventListener('DOMContentLoaded', async () => {
+    await fetch('/user-info')
+      .then(res => res.json())
+      .then(data => {
+        if (data.isAuthenticated) {
+          out.innerHTML = `<p>Welcome ${data.user.name}!</p>`;
+          loginBtn.style.display = 'none';
+          logoutBtn.style.display = 'block';
+        } else {
+          out.innerHTML = '<p>Please log in.</p>';
+          loginBtn.style.display = 'block';
+          logoutBtn.style.display = 'none';
+        }
+      })
 
+    loginBtn.addEventListener('click', () => {
+      window.location.href = '/login';
+    });
 
-document.getElementById('ping-db')?.addEventListener('click', async () => {
-  out.textContent = 'Pinging...';
-  try {
-    const res = await fetch('/api/dbping');
-    const text = await res.text();
-    out.textContent = text;
-  } catch (err) {
-    out.textContent = String(err);
-  }
+    logoutBtn.addEventListener('click', () => {
+      window.location.href = '/logout';
+    });
 });

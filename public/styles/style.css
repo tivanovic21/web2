@@ -24,11 +24,11 @@ button {
     border-radius: 8px;
     padding: 10px;
     font-weight: 600;
+    cursor: pointer;
 }
 
 button:hover {
     background: #60a5fa;
-    cursor: pointer;
 }
 
 .card {
@@ -42,6 +42,8 @@ button:hover {
     display: flex;
     flex-direction: row;
     gap: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .output {
