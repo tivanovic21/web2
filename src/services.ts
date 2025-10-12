@@ -3,10 +3,29 @@ import { GenerateQRCodeResponse, Kolo, SaveNewTicketResponse } from "./types";
 import { v4 as uuidv4 } from 'uuid';
 import QRCode from 'qrcode';
 
+// kolo
 export async function getActiveRound(): Promise<Kolo | null> {
   return await KoloRepository.findActive();
 }
 
+export async function createNewRound(isActive: boolean = false): Promise<Kolo> {
+  return await KoloRepository.create(isActive);
+}
+
+export async function closeRound(koloId: number): Promise<boolean> {
+  return await KoloRepository.close(koloId);
+}
+
+export async function getCurrentRound(): Promise<Kolo | null> {
+  return await KoloRepository.findCurrent();
+}
+
+export async function updateRound(koloId: number, fieldsToUpdate: Partial<Kolo>): Promise<boolean> {
+  return await KoloRepository.update(koloId, fieldsToUpdate);
+}
+
+
+// listic
 export async function storeTicket(uuid: string, lotoBrojevi: number[], documentId: string, koloId: number, korisnikId: string): Promise<boolean> {
   return await ListicRepository.create(uuid, lotoBrojevi, documentId, koloId, korisnikId);
 }

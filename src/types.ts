@@ -21,6 +21,7 @@ export type Kolo = {
   id: number;
   is_active: boolean;
   dobitni_brojevi: number[] | null;
+  broj_uplata: number;
   pobijednik_id?: string | null;
 }
 

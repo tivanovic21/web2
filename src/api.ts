@@ -1,26 +1,60 @@
 import { Express, Request, Response } from 'express';
 import { validateDocument, validateLotoNumbersInput } from './validation';
-import { ApiResponse, Kolo, LotoNumbersValidationResult } from './types';
-import { generateQRCode, storeNewTicket } from './services';
+import { ApiResponse, LotoNumbersValidationResult } from './types';
+import { closeRound, createNewRound, generateQRCode, getActiveRound, storeNewTicket, updateRound } from './services';
 
-/// API for m2m communication
+/// API za m2m komunikaciju
 export function registerExternalApi(app: Express, jwtCheck: any) {
-  app.post('/new-round', jwtCheck, (_: Request, res: Response) => {
-    res.status(204).end();
+  app.post('/new-round', jwtCheck, async (req: Request, res: Response) => {
+    try {
+      const activeKolo = await getActiveRound();
+      if (activeKolo) {
+        return res.status(204).end(); // dozvoljavamo max 1 aktivno kolo istovremeno
+      }
+
+      await createNewRound(true);
+      return res.status(204).end();
+
+    } catch (error) {
+      console.error('Greška u /new-round:', error);
+      return res.status(500).json({ message: 'Greška na serveru' } as ApiResponse);
+    }
   });
 
-  app.post('/close', jwtCheck, (_: Request, res: Response) => {
-    res.status(204).end();
+  app.post('/close', jwtCheck, async (_: Request, res: Response) => {
+    try {
+      const activeKolo = await getActiveRound();
+      if (!activeKolo) {
+        return res.status(204).end(); // nema aktivnog kola
+      }
+
+      await closeRound(activeKolo.id);
+      return res.status(204).end(); 
+    } catch (error) {
+      console.error('Greška u /close:', error);
+      return res.status(500).json({ message: 'Greška na serveru' } as ApiResponse);
+    }
   });
 
-  app.post('/store-results', jwtCheck, (req: Request, res: Response) => {
+  app.post('/store-results', jwtCheck, async (req: Request, res: Response) => {
     const { numbers } = req.body;
-
-    if (!numbers) {
+    if (!numbers || !Array.isArray(numbers)) {
       return res.status(400).json({ message: 'Brojevi nisu poslani' } as ApiResponse);
     }
 
-    res.status(204).end();
+    try {
+      const current = await getActiveRound();
+      if (!current) {
+        return res.status(400).json({ message: 'Nema aktivnog kola' } as ApiResponse);
+      }
+
+      await updateRound(current.id, { dobitni_brojevi: numbers });
+      res.status(204).end();
+    } catch (error) {
+      console.error('Greška u /store-results:', error);
+      return res.status(500).json({ message: 'Greška na serveru' } as ApiResponse);
+    }
+
   });
 }
 
