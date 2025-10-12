@@ -5,7 +5,7 @@ import https from 'https';
 import dotenv from 'dotenv';
 import { auth as jwtAuth } from 'express-oauth2-jwt-bearer';
 import { auth as oidc } from 'express-openid-connect';
-import { registerApi } from './api';
+import { registerExternalApi, registerInternalApi } from './api';
 import { registerRoutes } from './routes';
 
 dotenv.config();
@@ -44,7 +44,8 @@ app.use('/scripts', express.static(path.join(publicDir, 'scripts')));
 app.use('/resources', express.static(path.join(publicDir, 'resources')));
 
 registerRoutes(app);
-registerApi(app, jwtCheck);
+registerInternalApi(app);
+registerExternalApi(app, jwtCheck);
 
 const httpsOptions: https.ServerOptions = {
     key: fs.readFileSync(path.join(__dirname, '..', 'server.key')),     

@@ -1,14 +1,6 @@
 import {Express, Request, Response} from 'express';
 import path from 'path';
-
-type UserInfo = {
-    isAuthenticated: boolean;
-    user: User | null;
-}
-
-type User = {
-    name?: string;
-}
+import { UserInfo } from './types';
 
 const publicDir = path.resolve(__dirname, '..', 'public');
 
@@ -39,6 +31,12 @@ export const registerRoutes = (app: Express) => {
     
     app.get('/:page', (req: Request, res: Response) => {
         const page = req.params.page;
+        const anonymousPages = ['index'];
+
+        if (!anonymousPages.includes(page) && !req.oidc.isAuthenticated()) {
+            return res.redirect('/');
+        }
+
         res.sendFile(path.join(publicDir, page, 'index.html'), (err) => {
             if (err) return res.status(404).send('Not found');
         });

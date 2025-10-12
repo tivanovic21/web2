@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>web2 — loto</title>
+    <link rel="stylesheet" href="/styles/style.css">
+</head>
+<body>
+    <main>
+        <div>
+            <div class="card">
+                <div>
+                    <h1>Loto</h1>
+                </div>
+                <div class="card-form">
+                    <form id="loto-form">
+                        <div class="row">
+                            <div class="input-box">
+                                <label for="id-doc">Broj identifikacijskog dokumenta:</label>
+                                <input type="text" id="id-doc" inputmode="numeric" minlength="1" maxlength="20" required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-box">
+                                <label for="id-loto">Loto brojevi:</label>
+                                <input type="text" id="id-loto" inputmode="numeric" required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <button id="loto-submit" type="submit">Potvrdi</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script src="/scripts/loto.js"></script>
+</body>
+</html>
