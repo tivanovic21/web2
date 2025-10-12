@@ -28,8 +28,8 @@ export const validateLotoNumbersInput = (nums: number[]): LotoNumbersValidationR
 };
 
 export const validateDocument = (doc: string): boolean => {
-    if (!doc || doc.trim().length <= 0 || doc.length > 20 || !/\D/.test(doc)) {
+    if (!doc || doc.trim().length === 0 || doc.length > 20 || !/^\d+$/.test(doc)) {
         return false;
     }
     return true;
-}
+};

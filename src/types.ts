@@ -8,6 +8,13 @@ export type LotoNumbersValidationResult = {
     isValid: boolean;
 }
 
+export type RoundInfo = {
+  isActive: boolean;
+  numOfTickets: number;
+  winningNumbers: number[] | null;
+  koloId: number | null;
+}
+
 export type UserInfo = {
   isAuthenticated: boolean;
   user: User | null;
@@ -40,8 +47,10 @@ export interface ServiceResponse {
 
 export interface SaveNewTicketResponse extends ServiceResponse {
   uuid?: string | null;
+  koloId?: number | null;
 }
 
 export interface GenerateQRCodeResponse extends ServiceResponse {
   qrCodeUrl?: string | null;
+  link?: string | null
 }

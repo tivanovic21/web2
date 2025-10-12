@@ -1,7 +1,6 @@
 import { KoloRepository, ListicRepository } from "./db";
-import { GenerateQRCodeResponse, Kolo, SaveNewTicketResponse } from "./types";
+import { GenerateQRCodeResponse, Kolo, Listic, SaveNewTicketResponse } from "./types";
 import { v4 as uuidv4 } from 'uuid';
-import QRCode from 'qrcode';
 
 // kolo
 export async function getActiveRound(): Promise<Kolo | null> {
@@ -24,32 +23,31 @@ export async function updateRound(koloId: number, fieldsToUpdate: Partial<Kolo>)
   return await KoloRepository.update(koloId, fieldsToUpdate);
 }
 
+export async function incrementRoundTickets(koloId: number, incrementBy: number): Promise<boolean> {
+  return await KoloRepository.incrementRoundTickets(koloId, incrementBy);
+}
 
 // listic
 export async function storeTicket(uuid: string, lotoBrojevi: number[], documentId: string, koloId: number, korisnikId: string): Promise<boolean> {
   return await ListicRepository.create(uuid, lotoBrojevi, documentId, koloId, korisnikId);
 }
 
-export async function storeNewTicket(document: string, numbers: number[], korisnikId: string): Promise<SaveNewTicketResponse  > {
+export async function storeNewTicket(document: string, numbers: number[], korisnikId: string, koloId: number): Promise<SaveNewTicketResponse> {
   const kolo = await getActiveRound();
   if (!kolo) {
     console.error('Nema aktivnog kola');
+    return { isSuccess: false };
+  } else if (koloId && kolo.id !== koloId) {
+    console.error('Poslano koloId ne odgovara aktivnom kolu');
     return { isSuccess: false };
   }
   
   const uuid = uuidv4();
   const result: boolean = await storeTicket(uuid, numbers, document, kolo.id, korisnikId);
   
-  return { uuid, isSuccess: result };
+  return { uuid, koloId: kolo.id, isSuccess: result };
 }
 
-export async function generateQRCode(uuid: string, host: string): Promise<GenerateQRCodeResponse> {
-  try {
-    const url = `https://${host}/listic/${uuid}`;
-    const qrCodeDataURL = await QRCode.toDataURL(url);
-    return { isSuccess: true, qrCodeUrl: qrCodeDataURL };
-  } catch (error) {
-    console.error('Greška u generateQRCode:', error);
-    return { isSuccess: false };
-  }
+export async function getTicketByUUID(uuid: string): Promise<Listic | null> {
+  return await ListicRepository.findByUUID(uuid);
 }

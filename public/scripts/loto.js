@@ -2,11 +2,21 @@ const documentInput = document.getElementById('id-doc');
 const lotoInput = document.getElementById('id-loto'); 
 const form = document.getElementById('loto-form');
 const output = document.getElementById('output');
+const koloIdInput = document.getElementById('id-kolo');
+
 
 const MIN_NUM = 1;
 const MAX_NUM = 45;
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
+    await fetch('/api/round-info')
+        .then(res => res.json())
+        .then(data => {
+            if (data && data.isActive && data.koloId) {
+                koloIdInput.value = data.koloId;
+            }
+        });
+
     documentInput.addEventListener('input', (event) => {
         event.target.value = event.target.value.replace(/\D/g, '');
     });
@@ -59,23 +69,38 @@ const handleSubmit = async (event) => {
             },
             body: JSON.stringify({
                 document: documentInputValue,
-                numbers: nums
+                numbers: nums,
+                koloId: parseInt(koloIdInput.value)
             })
         });
+        const result = await response.json();
 
         if (response.ok) {
-            const result = await response.json();
+            const paragraph = output.querySelector('p');
+            const insertAfter = paragraph ? paragraph : output;
 
             const qrImgDiv = document.createElement('div');
             const qrImg = document.createElement('img');
-            qrImg.src = result.data;
+            qrImg.src = result.data.qrCodeUrl;
             qrImg.alt = 'QR Code';
-            qrImgDiv.appendChild(qrImg);    
-            output.appendChild(qrImgDiv);
+            qrImgDiv.appendChild(qrImg);
+
+            const linkDiv = document.createElement('div');
+            const link = document.createElement('a');
+            link.href = result.data.link;  
+            link.textContent = 'Pogledaj listić';
+            link.target = '_blank';
+            linkDiv.appendChild(link);
+
+            insertAfter.insertAdjacentElement('afterend', qrImgDiv);
+            qrImgDiv.insertAdjacentElement('afterend', linkDiv);
 
             documentInput.value = '';
             lotoInput.value = '';
             output.style.display = 'flex';
+        } else {
+            alert(`Greška: ${result.message}`);
+            output.style.display = 'none';
         }
     } catch (error) {
         alert('Došlo je do pogreške prilikom slanja podataka. Pokušajte ponovno');

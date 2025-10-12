@@ -13,15 +13,20 @@
           <div>
             <h1>Lab 1</h1>
           </div>
+          <div id="output" class="output"></div>  
           <div class="row">
             <button id="login">Login</button>
             <button id="logout">Logout</button>
           </div>
           <div class="row">
-            <button id="loto" disabled hidden>Unesi podatke s listića</button>
+            <button id="loto" disabled hidden>Igraj loto</button>
+          </div>
+          <div class="row" id="round-info" style="display: none;">
+            <p>Broj uplata u trenutnom kolu: <span id="num-of-tickets"></span></p>
+            <p>Dobitni brojevi: <span id="winning-numbers"></span></p>
+            <p>Trenutno postoji aktivno kolo: <span id="is-active"></span></p>
           </div>
         </div>
-        <div id="output" class="output"></div>  
       </div>
     </main>
     <script src="/scripts/index.js"></script>
