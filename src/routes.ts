@@ -4,6 +4,7 @@ import { UserInfo } from './types';
 
 const publicDir = path.resolve(__dirname, '..', 'public');
 
+// rute za prikaz stranica na frontendu
 export const registerRoutes = (app: Express) => {
     app.get('/', (_: Request, res: Response) => {
         res.sendFile(path.join(publicDir, 'index', 'index.html'));

@@ -1,6 +1,7 @@
 const documentInput = document.getElementById('id-doc');
 const lotoInput = document.getElementById('id-loto'); 
 const form = document.getElementById('loto-form');
+const output = document.getElementById('output');
 
 const MIN_NUM = 1;
 const MAX_NUM = 45;
@@ -23,10 +24,10 @@ const validateLotoNumbersInput = (numbers) => {
         .filter(n => n !== '');
 
     if (nums.length < 6 || nums.length > 10) {
-        alert('Morate unijeti između 6 i 10 brojeva');
+        alert('Morate unijeti između 6 i 10 brojeva te ih odvojiti zarezom');
         return [nums.map(n => Number(n)), false];
     } else if (new Set(nums).size !== nums.length) {
-        alert('Svi brojevi moraju biti jedinstveni');
+        alert('Brojevi se ne smiju ponavljati');
         return [nums.map(n => Number(n)), false];
     } else if (nums.some(n => isNaN(Number(n)) || Number(n) < MIN_NUM || Number(n) > MAX_NUM)) {
         alert(`Svi brojevi moraju biti između ${MIN_NUM} i ${MAX_NUM}`);
@@ -50,29 +51,35 @@ const handleSubmit = async (event) => {
         return;
     }
 
-    await fetch('/api/loto', {
-        method: 'POST',
-        dataType: 'json',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            document: documentInputValue,
-            numbers: nums
-        })
-    }).then(data => {
-        if (data.status === 200) {
-            alert('Uspješno ste odigrali loto!');
+    try {
+        const response = await fetch('/api/loto', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                document: documentInputValue,
+                numbers: nums
+            })
+        });
+
+        if (response.ok) {
+            const result = await response.json();
+
+            const qrImgDiv = document.createElement('div');
+            const qrImg = document.createElement('img');
+            qrImg.src = result.data;
+            qrImg.alt = 'QR Code';
+            qrImgDiv.appendChild(qrImg);    
+            output.appendChild(qrImgDiv);
+
             documentInput.value = '';
             lotoInput.value = '';
-        } else {
-            data.json().then(err => {
-                alert('Došlo je do pogreške: ' + err.message);
-                console.error(err);
-            });
+            output.style.display = 'flex';
         }
-    }).catch(err => {
-        alert('Došlo je do pogreške: ' + err.message);
-        console.error(err);
-    });
+    } catch (error) {
+        alert('Došlo je do pogreške prilikom slanja podataka. Pokušajte ponovno');
+        console.error('Error prilikom slanja na server:', error);
+        output.style.display = 'none';
+    }
 }
