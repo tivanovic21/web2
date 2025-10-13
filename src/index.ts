@@ -11,7 +11,7 @@ import { registerRoutes } from './routes';
 dotenv.config();
 const app = express();
 
-const HOST = process.env.HOST || 'localhost';
+const HOST = process.env.RENDER_EXTERNAL_URL || 'localhost';
 const PORT = Number(process.env.PORT || 3000);
 const publicDir = path.resolve(__dirname, '..', 'public');
 
