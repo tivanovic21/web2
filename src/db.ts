@@ -1,7 +1,6 @@
 import { Pool } from 'pg';
 import dotenv from 'dotenv';
 import { Kolo, Listic } from './types';
-import { incrementRoundTickets } from './services';
 
 dotenv.config();
 
@@ -55,7 +54,7 @@ export const KoloRepository = {
   }, 
 
   async findCurrent(): Promise<Kolo | null> {
-    const res = await query ('SELECT * FROM kolo WHERE is_active = false and dobitni_brojevi IS NULL ORDER BY id DESC');
+    const res = await query ('SELECT * FROM kolo WHERE is_active = false AND dobitni_brojevi IS NULL ORDER BY id DESC');
     if (res.rows.length === 0) return null;
     if (res.rows.length > 1) throw new Error('Više trenutnih kola pronađeno');
     return res.rows[0];
@@ -86,17 +85,6 @@ export const KoloRepository = {
       return (result.rowCount ?? 0) > 0;
     } catch (error) {
       console.error('Error updating kolo:', error);
-      return false;
-    }
-  }, 
-
-  async incrementRoundTickets(koloId: number, incrementBy: number): Promise<boolean> {
-    try {
-      console.log('Incrementing broj_uplata by', incrementBy, 'for koloId', koloId);
-      const result = await query('UPDATE kolo SET broj_uplata = broj_uplata + $1 WHERE id = $2', [incrementBy, koloId]);
-      return (result.rowCount ?? 0) > 0;
-    } catch (error) {
-      console.error('Error incrementing broj_uplata:', error);
       return false;
     }
   }

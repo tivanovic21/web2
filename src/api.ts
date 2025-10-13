@@ -1,7 +1,7 @@
 import { Express, Request, Response } from 'express';
 import { validateDocument, validateLotoNumbersInput } from './validation';
-import { ApiResponse, GenerateQRCodeResponse, ListicDto, LotoNumbersValidationResult, RoundInfo, UserInfo } from './types';
-import { closeRound, createNewRound, getActiveRound, getCurrentRound, getKoloById, getLastRound, getNumOfTickets, getPlayersForRound, getTicketByUUID, incrementRoundTickets, storeNewTicket, updateRound } from './services';
+import { ApiResponse, GenerateQRCodeResponse, LotoNumbersValidationResult, RoundInfo, UserInfo } from './types';
+import { closeRound, createNewRound, getActiveRound, getCurrentRound, getKoloById, getLastRound, getNumOfTickets, getPlayersForRound, storeNewTicket, updateRound } from './services';
 import QRCode from 'qrcode';
 
 /// API za m2m komunikaciju
@@ -137,8 +137,6 @@ async function _handleLotoRequest(req: Request, res: Response) {
     if (!ticketResponse.isSuccess) {
       return res.status(500).json({ message: 'Greška pri spremanju listića' } as ApiResponse);
     }
-
-    await incrementRoundTickets(ticketResponse.koloId!, 1);
 
     const qrResponse = await _generateQRCode(ticketResponse.uuid!, `${req.get('host')}`);
     if (!qrResponse.isSuccess) {

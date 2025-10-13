@@ -31,10 +31,6 @@ export async function updateRound(koloId: number, fieldsToUpdate: Partial<Kolo>)
   return await KoloRepository.update(koloId, fieldsToUpdate);
 }
 
-export async function incrementRoundTickets(koloId: number, incrementBy: number): Promise<boolean> {
-  return await KoloRepository.incrementRoundTickets(koloId, incrementBy);
-}
-
 // listic
 export async function storeTicket(uuid: string, lotoBrojevi: number[], documentId: string, koloId: number, korisnikId: string): Promise<boolean> {
   return await ListicRepository.create(uuid, lotoBrojevi, documentId, koloId, korisnikId);
