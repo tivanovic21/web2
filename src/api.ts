@@ -1,7 +1,7 @@
 import { Express, Request, Response } from 'express';
 import { validateDocument, validateLotoNumbersInput } from './validation';
 import { ApiResponse, GenerateQRCodeResponse, ListicDto, LotoNumbersValidationResult, RoundInfo, UserInfo } from './types';
-import { closeRound, createNewRound, getActiveRound, getCurrentRound, getKoloById, getNumOfTickets, getPlayersForRound, getTicketByUUID, incrementRoundTickets, storeNewTicket, updateRound } from './services';
+import { closeRound, createNewRound, getActiveRound, getCurrentRound, getKoloById, getLastRound, getNumOfTickets, getPlayersForRound, getTicketByUUID, incrementRoundTickets, storeNewTicket, updateRound } from './services';
 import QRCode from 'qrcode';
 
 /// API za m2m komunikaciju
@@ -105,15 +105,15 @@ export function registerInternalApi(app: Express) {
           koloId: null
       }
 
-      const kolo = await getActiveRound();
+      let kolo = await getActiveRound();
       if (!kolo) {
-          return res.json(result);
+          kolo = await getLastRound();
       }
 
-      result.numOfTickets = await getNumOfTickets(kolo.id) ?? 0;
-      result.winningNumbers = kolo.dobitni_brojevi ?? null;
-      result.koloId = kolo.id ?? null;
-      result.isActive = kolo.is_active ?? false;
+      result.numOfTickets = await getNumOfTickets(kolo?.id ?? -1) ?? 0;
+      result.winningNumbers = kolo?.dobitni_brojevi ?? null;
+      result.koloId = kolo?.id ?? null;
+      result.isActive = kolo?.is_active ?? false;
 
       res.json(result)
   });

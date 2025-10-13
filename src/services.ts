@@ -7,6 +7,10 @@ export async function getActiveRound(): Promise<Kolo | null> {
   return await KoloRepository.findActive();
 }
 
+export async function getLastRound(): Promise<Kolo | null> {
+  return await KoloRepository.findLast();
+}
+
 export async function getKoloById(koloId: number): Promise<Kolo | null> {
   return await KoloRepository.findById(koloId);
 }

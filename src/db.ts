@@ -26,6 +26,12 @@ export const KoloRepository = {
     return res.rows[0];
   },
 
+  async findLast(): Promise<Kolo | null> {
+    const res = await query('SELECT * FROM kolo ORDER BY id DESC LIMIT 1');
+    if (res.rows.length === 0) throw new Error('Nema kola u bazi');
+    return res.rows[0];
+  },
+
   async findById(koloId: number): Promise<Kolo | null> {
     const res = await query('SELECT * FROM kolo WHERE id = $1', [koloId]);
     if (res.rows.length === 0) return null;

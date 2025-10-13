@@ -45,6 +45,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         isActiveSpan.innerText = data.isActive ? 'Da' : 'Ne';
         roundDiv.style.display = 'block';
 
+        // kolo nije aktivno, prikaži zadnje odigrano kolo
+        if (!data.isActive && data.numOfTickets && data.winningNumbers) {
+          document.getElementById('current-round-p').innerText = `Broj uplata u zadnjem odigranom kolu: ${data.numOfTickets}`;
+        }
+
         if (data.isActive && isAuthenticated) {
           toggleLotoButton(false, false);
         } else {
