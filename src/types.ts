@@ -28,7 +28,6 @@ export type Kolo = {
   id: number;
   is_active: boolean;
   dobitni_brojevi: number[] | null;
-  broj_uplata: number;
   pobijednik_id?: string | null;
 }
 
@@ -39,6 +38,12 @@ export type Listic = {
   loto_brojevi: number[];
   document_id: string;
   korisnik_id: string;
+}
+
+export type ListicDto = {
+  listic: Listic;
+  is_winner?: boolean | null;
+  winning_numbers?: number[] | null;
 }
 
 export interface ServiceResponse {

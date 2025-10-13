@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         isActiveSpan.innerText = data.isActive ? 'Da' : 'Ne';
         roundDiv.style.display = 'block';
 
-        if (data.isActive) {
+        if (data.isActive && isAuthenticated) {
           toggleLotoButton(false, false);
         } else {
           toggleLotoButton(true, true);

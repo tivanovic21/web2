@@ -1,7 +1,7 @@
 import { Express, Request, Response } from 'express';
 import { validateDocument, validateLotoNumbersInput } from './validation';
-import { ApiResponse, GenerateQRCodeResponse, LotoNumbersValidationResult, RoundInfo, UserInfo } from './types';
-import { closeRound, createNewRound, getActiveRound, getCurrentRound, getTicketByUUID, incrementRoundTickets, storeNewTicket, updateRound } from './services';
+import { ApiResponse, GenerateQRCodeResponse, ListicDto, LotoNumbersValidationResult, RoundInfo, UserInfo } from './types';
+import { closeRound, createNewRound, getActiveRound, getCurrentRound, getKoloById, getNumOfTickets, getPlayersForRound, getTicketByUUID, incrementRoundTickets, storeNewTicket, updateRound } from './services';
 import QRCode from 'qrcode';
 
 /// API za m2m komunikaciju
@@ -49,7 +49,19 @@ export function registerExternalApi(app: Express, jwtCheck: any) {
         return res.status(400).json({ message: 'Nema zatvorenog kola bez dobitnih brojeva' } as ApiResponse);
       }
 
-      await updateRound(current.id, { dobitni_brojevi: numbers });
+      const players = await getPlayersForRound(current.id);
+      let pobjednikId= null;
+
+      if (players.length > 0) {
+        for (const p of players) {
+          if (numbers.every((num: number) => p.loto_brojevi.includes(num))) {
+            pobjednikId = p.korisnik_id;
+            break;
+          }
+        }
+      }
+
+      await updateRound(current.id, { dobitni_brojevi: numbers, pobijednik_id: pobjednikId });
       res.status(204).end();
     } catch (error) {
       console.error('Greška u /store-results:', error);
@@ -63,25 +75,6 @@ export function registerExternalApi(app: Express, jwtCheck: any) {
 export function registerInternalApi(app: Express) {
   app.post('/api/loto', async (req: Request, res: Response) => {
     await _handleLotoRequest(req, res);
-  });
-
-  app.get('/api/listic/:uuid', async (req: Request, res: Response) => {
-    const { uuid } = req.params;
-    if (!uuid) {
-      return res.status(400).json({ message: 'UUID nije poslan' } as ApiResponse);
-    }
-
-    try {
-      const listic = await getTicketByUUID(uuid);
-      if (!listic) {
-        return res.status(404).json({ message: 'Listić nije pronađen' } as ApiResponse);
-      }
-
-      return res.status(200).json({ message: 'OK', data: listic } as ApiResponse & { data: typeof listic });
-    } catch (error) {
-      console.error('Greška u /api/listic/:uuid:', error);
-      return res.status(500).json({ message: 'Greška na serveru' } as ApiResponse);
-    }
   });
 
   app.get('/api/user-info', (req: Request, res: Response) => {
@@ -117,7 +110,7 @@ export function registerInternalApi(app: Express) {
           return res.json(result);
       }
 
-      result.numOfTickets = kolo.broj_uplata ?? 0;
+      result.numOfTickets = await getNumOfTickets(kolo.id) ?? 0;
       result.winningNumbers = kolo.dobitni_brojevi ?? null;
       result.koloId = kolo.id ?? null;
       result.isActive = kolo.is_active ?? false;

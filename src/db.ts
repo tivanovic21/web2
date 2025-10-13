@@ -26,6 +26,13 @@ export const KoloRepository = {
     return res.rows[0];
   },
 
+  async findById(koloId: number): Promise<Kolo | null> {
+    const res = await query('SELECT * FROM kolo WHERE id = $1', [koloId]);
+    if (res.rows.length === 0) return null;
+    if (res.rows.length > 1) throw new Error('Više kola s istim ID-em pronađeno');
+    return res.rows[0];
+  },
+
   async create(isActive: boolean): Promise<Kolo> {
     const res = await query('INSERT INTO kolo (is_active) VALUES ($1) RETURNING *', [isActive]);
     return res.rows[0];
@@ -108,5 +115,16 @@ export const ListicRepository = {
     if (res.rows.length === 0) return null;
     if (res.rows.length > 1) throw new Error('Više listića s istim UUID-om');
     return res.rows[0];
+  }, 
+
+  async countByKoloId(koloId: number): Promise<number | null> {
+    const res = await query('SELECT COUNT(*) FROM listic WHERE kolo_id = $1', [koloId]);
+    if (res.rows.length === 0) return null;
+    return parseInt(res.rows[0].count, 10);
+  }, 
+
+  async getAllByKoloId(koloId: number): Promise<Listic[]> {
+    const res = await query('SELECT * FROM listic WHERE kolo_id = $1', [koloId]);
+    return res.rows;
   }
 }

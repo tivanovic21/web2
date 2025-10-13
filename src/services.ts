@@ -7,6 +7,10 @@ export async function getActiveRound(): Promise<Kolo | null> {
   return await KoloRepository.findActive();
 }
 
+export async function getKoloById(koloId: number): Promise<Kolo | null> {
+  return await KoloRepository.findById(koloId);
+}
+
 export async function createNewRound(isActive: boolean = false): Promise<Kolo> {
   return await KoloRepository.create(isActive);
 }
@@ -50,4 +54,12 @@ export async function storeNewTicket(document: string, numbers: number[], korisn
 
 export async function getTicketByUUID(uuid: string): Promise<Listic | null> {
   return await ListicRepository.findByUUID(uuid);
+}
+
+export async function getNumOfTickets(koloId: number): Promise<number | null> {
+  return await ListicRepository.countByKoloId(koloId);
+}
+
+export async function getPlayersForRound(koloId: number): Promise<Listic[]> {
+  return await ListicRepository.getAllByKoloId(koloId);
 }
