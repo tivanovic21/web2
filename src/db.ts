@@ -10,7 +10,7 @@ const db = new Pool({
   database: process.env.DB_NAME,
   host: process.env.DB_HOST,
   port: Number(process.env.DB_PORT) || 5432,
-  ssl: process.env.DB_SSL === 'true' ? true : false,
+  ssl: {rejectUnauthorized: false },
 });
 
 async function query(text: string, params?: any[]) {
