@@ -27,7 +27,7 @@ export const KoloRepository = {
 
   async findLast(): Promise<Kolo | null> {
     const res = await query('SELECT * FROM kolo ORDER BY id DESC LIMIT 1');
-    if (res.rows.length === 0) throw new Error('Nema kola u bazi');
+    if (res.rows.length === 0) return null;
     return res.rows[0];
   },
 
