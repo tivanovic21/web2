@@ -162,7 +162,7 @@ function _validateInput(document: string, numbers: number[]): string | null {
 
 async function _generateQRCode(uuid: string, host: string): Promise<GenerateQRCodeResponse> {
   try {
-    const url = `https://${host}/api/listic/${uuid}`;
+    const url = `https://${host}/listic/${uuid}`;
     const qrCodeDataURL = await QRCode.toDataURL(url);
     return { isSuccess: true, qrCodeUrl: qrCodeDataURL, link: url };
   } catch (error) {
