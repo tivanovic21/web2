@@ -47,11 +47,7 @@ registerRoutes(app);
 registerInternalApi(app);
 registerExternalApi(app, jwtCheck);
 
-const httpsOptions: https.ServerOptions = {
-    key: fs.readFileSync(path.join(__dirname, '..', 'server.key')),     
-    cert: fs.readFileSync(path.join(__dirname, '..', 'server.cert'))
-}
-
-https.createServer(httpsOptions, app).listen(PORT, () => {
-    console.log(`Server running at https://${HOST}:${PORT}/`);
-});
+const hostname = '0.0.0.0';
+app.listen(PORT, hostname, () => {
+    console.log(`Server locally running at http://${hostname}:${PORT}/ and from outside on ${HOST}`);
+})
