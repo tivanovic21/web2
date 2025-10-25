@@ -1,8 +1,11 @@
 import { Pool } from 'pg';
 import dotenv from 'dotenv';
 import { Kolo, Listic } from './types';
+import dns from 'dns';
 
 dotenv.config();
+
+dns.setDefaultResultOrder('ipv4first'); // supabase hosting fix
 
 const db = new Pool({
   user: process.env.DB_USER,
