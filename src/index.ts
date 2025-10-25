@@ -1,12 +1,13 @@
 import express from 'express';
 import path from 'path';
-import fs from 'fs';
-import https from 'https';
 import dotenv from 'dotenv';
 import { auth as jwtAuth } from 'express-oauth2-jwt-bearer';
 import { auth as oidc } from 'express-openid-connect';
 import { registerExternalApi, registerInternalApi } from './api';
 import { registerRoutes } from './routes';
+import dns from 'dns';
+
+dns.setDefaultResultOrder('ipv4first'); // supabase hosting fix
 
 dotenv.config();
 const app = express();
