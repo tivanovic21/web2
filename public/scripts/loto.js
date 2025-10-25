@@ -15,6 +15,9 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (data && data.isActive && data.koloId) {
                 koloIdInput.value = data.koloId;
             }
+        })
+        .catch(err => {
+            console.error('Error fetching round info:', err);
         });
 
     documentInput.addEventListener('input', (event) => {

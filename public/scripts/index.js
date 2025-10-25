@@ -59,6 +59,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         roundDiv.style.display = 'none';
       }
     })
+    .catch(err => {
+      console.error('Error fetching round info:', err);
+    })
 
   loginBtn.addEventListener('click', () => {
     window.location.href = '/login';
