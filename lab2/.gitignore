@@ -1,0 +1,8 @@
+node_modules
+dist
+upute.txt
+.env
+server.cert
+server.key
+.DS_Store
+.vscode
