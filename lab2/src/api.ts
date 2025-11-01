@@ -52,4 +52,21 @@ export function registerInternalApi(app: Express) {
       res.status(500).json({ ok: false, loggedIn: false, error: 'Internal server error' });
     }
   });
+
+  app.post('/api/contact', async (req: Request, res: Response) => {
+    try {
+      const { username, isSqlInjection } = req.body;
+      const isSafe = !Boolean(isSqlInjection);
+
+      const contact = await KorisnikService.getContactByUsername(String(username), isSafe);
+      if (contact === null) {
+        return res.status(404).json({ ok: false, error: 'User not found' });
+      }
+
+      return res.json({ ok: true, contact });
+    } catch (error) {
+      console.error('Error in /api/contact:', error);
+      res.status(500).json({ ok: false, error: 'Internal server error' });
+    }
+  });
 }

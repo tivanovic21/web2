@@ -3,6 +3,7 @@ export type Korisnik = {
   username: string;
   password: string;
   password_hash: string;
+  contact: string;
 }
 
 export type Token = {

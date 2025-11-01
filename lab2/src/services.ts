@@ -10,7 +10,8 @@ export const KorisnikService = {
       return existingUser.id;
     }
     const hash = await bcrypt.hash(password, 12);
-    return await KorisnikRepository.createDemo(username, password, hash);
+    const contact = `${username}@example.com`;
+    return await KorisnikRepository.createDemo(username, password, hash, contact);
   },
 
   async getByUsername(username: string): Promise<Korisnik | null> {
@@ -20,6 +21,10 @@ export const KorisnikService = {
   async getById(id: number): Promise<Korisnik | null> {
     const user = await KorisnikRepository.getById(id);
     return user;
+  },
+
+  async getContactByUsername(username: string, isSafe: boolean) {
+    return await KorisnikRepository.getContactByUsername(username, isSafe);
   }
 }
 

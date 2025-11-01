@@ -6,9 +6,29 @@
   <title>Početna</title>
 </head>
 <body>
-    <h1>Početna (protected demo)</h1>
+    <h1>Početna</h1>
   <div id="info">Provjeravam sesiju...</div>
+
   <div>
+    <p>Primjeri upita koje možete unijeti u input ispod: </p>
+    <ul>
+      <li><b>Normalan unos: </b> test -> <i>vraća contact podatak za korisnika sa korisničkim imenom "test"</i></li>
+      <li><b>Tautologija: </b> ' OR '1'='1' -> <i>vraća contact podatak za prvog korisnika u tablici</i></li>
+      <li><b>Union: </b> ' UNION SELECT password FROM korisnik WHERE username = 'test' -- <i>-> vraća password umjesto kontakta</i></li>
+      <li><b>Drop table: </b>' ; DROP TABLE IF EXISTS primjer; --' <i>-> briše tablicu primjer iz baze (isti princip i za kreiranje)</i></li>
+    </ul>
+  </div>
+
+  <div id="mainDiv" style="display: none;">
+    <input id="brokenAuth" type="checkbox" /> Uključi BROKEN AUTH <br />
+    <label for="contact">
+      Unesite korisničko ime osobe da dobijete njihov kontakt:
+      <input type="text" id="contact" placeholder="test" />
+    </label>
+
+    <button id="contactBtn">Dohvati kontakt</button>
+    <div id="contactInfo"></div>
+
     <button id="logoutBtn" style="display: none;">Odjava</button>
   </div>
   <script src="/scripts/index.js" ></script>

@@ -1,5 +1,5 @@
 addEventListener('DOMContentLoaded', async () => {
-  toggleLogoutButton(false);
+  toggleMainDiv(false);
 
   await fetch('/api/me').then(r => r.json()).then(j => {
     if (!j.loggedIn) {
@@ -8,11 +8,19 @@ addEventListener('DOMContentLoaded', async () => {
     }
     document.getElementById('info').textContent = 'Pozdrav: ' + (j.username);
 
-    toggleLogoutButton(true);
+    toggleMainDiv(true);
+    
+    document.getElementById('contactBtn').addEventListener('click', async () => {
+      await fetchContactInfo();
+    });
+
   }).catch(() => { window.location.href = '/login'; });
 });
 
-const toggleLogoutButton = async (show) => {
+const toggleMainDiv = async (show) => {
+  const mainDiv = document.getElementById('mainDiv');
+  mainDiv.style.display = show ? 'block' : 'none';
+  
   const logoutBtn = document.getElementById('logoutBtn');
   logoutBtn.style.display = show ? 'block' : 'none';
   logoutBtn.onclick = async () => {
@@ -27,3 +35,26 @@ const toggleLogoutButton = async (show) => {
       });
   };
 };
+
+const fetchContactInfo = async () => {
+  const username = document.getElementById('contact').value;
+  const isSqlInjection = document.getElementById('brokenAuth').checked;
+
+  if (!username) return;
+
+  const resp = await fetch('/api/contact', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ username, isSqlInjection })
+  });
+  const j = await resp.json();
+
+  if (!resp.ok) {
+    document.getElementById('contactInfo').textContent = 'Error: ' + (j.error || JSON.stringify(j));
+    return;
+  }
+  console.log(j);
+
+  document.getElementById('contactInfo').textContent = JSON.stringify(j, null, 2);
+
+}

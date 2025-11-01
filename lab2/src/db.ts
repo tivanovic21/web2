@@ -18,8 +18,8 @@ async function query(text: string, params?: any[]) {
 }
 
 export const KorisnikRepository = {
-  async createDemo(username: string, password: string, hash: string): Promise<number> {
-    const res = await query(`INSERT INTO korisnik (username, password, password_hash) VALUES ($1, $2, $3) RETURNING id`, [username, password, hash]);
+  async createDemo(username: string, password: string, hash: string, contact: string): Promise<number> {
+    const res = await query(`INSERT INTO korisnik (username, password, password_hash, contact) VALUES ($1, $2, $3, $4) RETURNING id`, [username, password, hash, contact]);
     return res.rows[0].id;
   },
 
@@ -31,5 +31,16 @@ export const KorisnikRepository = {
   async getById(id: number): Promise<Korisnik | null> {
     const res = await query(`SELECT * FROM korisnik WHERE id = $1`, [id]);
     return res.rows[0] ?? null;
-  }
+  },
+
+  async getContactByUsername(username: string, isSafe: boolean) {
+    if (isSafe) {
+      const response = await query("SELECT contact FROM korisnik WHERE username = $1", [username]);
+      return response.rows[0]?.contact ?? null;
+    } else {
+      const sql = `SELECT contact FROM korisnik WHERE username = '${username}'`;
+      const response = await query(sql);
+      return response.rows[0]?.contact ?? null;
+    }
+  } 
 }
