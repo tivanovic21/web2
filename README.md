@@ -48,7 +48,7 @@ No kako je svaka vježba rađena za posluživanje na cloud-u gotovo je sigurno d
 
 
 ### POKRETANJE LAB1
-[Poveznica na aplikaciju u cloud-u](https://web2-1oqm.onrender.com)
+~~[Poveznica na aplikaciju u cloud-u](https://web2-1oqm.onrender.com)~~ - aplikacija više nije hostana online
 
 Da bi se aplikaciju pokrenulo lokalno potrebno je napraviti nekoliko izmjena. 
 
@@ -83,3 +83,35 @@ AUTH0_BASE_URL='...'
 ```
 
 Nakon toga aplikacija bi se trebala pokrenuti na [[http://localhost:3000](http://localhost:3000)]. 
+
+
+### POKRETANJE LAB2
+[Poveznica na aplikaciju u cloud-u](https://web2-1oqm.onrender.com)
+
+1) Kreirati vlastiti `.env` dokument sa sljedećom strukturom:
+
+```shell
+RENDER_EXTERNAL_URL='localhost'
+PORT=3000
+
+DB_USER='...'
+DB_PASSWORD='...'
+DB_NAME='...'
+DB_HOST='...'
+DB_PORT=...
+DB_SSL='false'
+```
+
+2) Kreirati tablicu `korisnik` putem sljedeće komande jer aplikacija po defaultu sama dodaje testnog korisnika sa vjerodajnicama `test` | `test`:
+
+```postgresql
+CREATE TABLE korisnik (
+	id SERIAL PRIMARY KEY,
+	username VARCHAR(255) UNIQUE NOT NULL,
+	password VARCHAR(255) NOT NULL,
+	password_hash VARCHAR(255) NOT NULL,
+	contact VARCHAR(255) NULL
+)
+```
+
+Ostatak procesa provodi se standardno prema prije navedenim uputama oko pokretanja projekta.
