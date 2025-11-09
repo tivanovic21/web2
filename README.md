@@ -117,7 +117,7 @@ CREATE TABLE korisnik (
 Ostatak procesa provodi se standardno prema prije navedenim uputama oko pokretanja projekta.
 
 ### POKRETANJE LAB3
-[Poveznica na aplikaciju u cloud-u](https://web2-1oqm.onrender.com)
+[Poveznica na aplikaciju u cloud-u](https://tivanovic21.github.io/web2/lab3/breakout.html)
 
 1) Pozicionirati se u root direktorij treće laboratorijske vježbe (lab3)
 2) Otvoriti breakout.html u pregledniku po želji
