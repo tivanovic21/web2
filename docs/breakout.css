@@ -1,0 +1,20 @@
+html,
+body {
+    height: 100%;
+    margin: 0;
+    display: grid;
+    place-items: center;
+    background: #000000;
+    font-family: system-ui, Arial, Helvetica, Verdana;
+}
+
+canvas {
+    background: black;
+    border: 5px solid #fff;
+    display: block;
+    image-rendering: optimizeSpeed;
+}
+
+.container {
+    width: max-content
+}
