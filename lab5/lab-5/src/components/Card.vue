@@ -1,4 +1,5 @@
 <script setup>
+// properties
 const props = defineProps({
     subject: {
         type: Object,
@@ -26,8 +27,10 @@ const props = defineProps({
     }
 });
 
+// emit event
 const emit = defineEmits(['add-to-favorites']);
 
+// methods
 const handleClickEvent = () => {
     if (props.handleClick) {
         props.handleClick();
@@ -49,6 +52,7 @@ const handleCardBodyClick = () => {
             <img :src="subject.image" :alt="subject.label" class="card-img" />
         </div>
         <div class="card-info">
+            <!-- one-way binding -->
             <h3 class="card-title">{{ subject.label }}</h3>
             <p class="card-description">{{ subject.description }}</p>
             <button @click.stop="handleClickEvent">{{ buttonValue }}</button>
@@ -66,6 +70,8 @@ const handleCardBodyClick = () => {
 </template>
 
 <style lang="css" scoped>
+/* scoped style */
+
 .card-image img {
     border-radius: 4px;
 }

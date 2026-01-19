@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 
+// store
 export const useFavoritesStore = defineStore('favorites', {
   state: () => ({
     favorites: []

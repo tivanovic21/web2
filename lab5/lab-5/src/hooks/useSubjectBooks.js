@@ -5,8 +5,9 @@ export function useSubjectBooks(subjectKey) {
     const loading = ref(false);
     const error = ref(null);
 
-    const apiUrl = `https://openlibrary.org/subjects/${subjectKey}.json?limit=10`;
+    const apiUrl = `https://openlibrary.org/subjects/${subjectKey}.json?limit=40`;
 
+    // asinkroni dohvat podataka
     const fetchBooks = async () => {
         loading.value = true;
         error.value = null;

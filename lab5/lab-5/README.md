@@ -4,10 +4,12 @@ Aplikacija dozvoljava korisnicima da pronađu po 10 knjiga iz nekoliko predodre�
 
 ## Zahtjevi aplikacije
 
+Sve je implementirano
+
 - [x] interpolation/one-way binding -> src/components/Card.vue
-- [ ] two-way binding
+- [x] two-way binding -> src/views/SubjectView.vue
 - [x] methods -> src/components/Card.vue
-- [ ] computed properties
+- [x] computed properties -> src/views/SubjectView.vue
 - [x] barem jedan scoped style -> src/components/Card.vue
 - [x] koristiti barem jedan lifecycle hook -> src/views/SubjectView.vue
 - [x] routing (više stranica) -> src/router/index.js
