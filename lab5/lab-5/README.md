@@ -4,7 +4,7 @@ Aplikacija dozvoljava korisnicima da pronađu po 10 knjiga iz nekoliko predodre�
 
 ## Zahtjevi aplikacije
 
-Sve je implementirano
+Sve je implementirano. 
 
 - [x] interpolation/one-way binding -> src/components/Card.vue
 - [x] two-way binding -> src/views/SubjectView.vue
@@ -17,7 +17,7 @@ Sve je implementirano
 - [x] dinamičko usmjeravanje s 404 stranicom ("catch all") -> src/router/index.js & src/views/NotFound.vue
 - [x] (barem) dvije komponente -> src/components/Card.vue & Grid.vue
 - [x] komponenta bez stanja, koristiti properties -> src/components/Card.vue
-- [] komponenta sa stanjem
+- [x] komponenta sa stanjem -> src/components/Grid.vue
 - [x] barem jedna komponenta mora emitirati barem jedan event -> src/components/Card.vue emitira event koji src/views/SubjectView.vue konzumira
 - [x] store (Pinia) -> src/stores/favorites.js
 - [x] asinkroni dohvat podataka s backenda, možete: koristiti Firebase ili Back4App, Mocky, itd. vlastiti storage, ili možete mock napraviti, držati podatke u memoriji, ali mora biti asinkroni poziv/upis ostvariti asinkrono -> src/views/SubjectView.vue (logika dohvata u src/hooks/useSubjectBooks.js)
