@@ -3,6 +3,7 @@ import { onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { useSubjectBooks } from '@/hooks/useSubjectBooks';
 import Card from '@/components/Card.vue';
+import Grid from '@/components/Grid.vue';
 import { SubjectEnum } from '@/models/SubjectEnum';
 import { useFavoritesStore } from '@/stores/favorites';
 
@@ -13,9 +14,7 @@ const { books, loading, error, fetchBooks } = useSubjectBooks(subjectKey);
 const favoritesStore = useFavoritesStore();
 
 const handleCardClick = (book) => {
-    if (window.confirm(`Add "${book.title}" to favorites?`)) {
-        favoritesStore.addFavorite(book);
-    }
+    favoritesStore.addFavorite(book);
 };
 
 onMounted(async () => {
@@ -30,15 +29,17 @@ onMounted(async () => {
             <div v-if="loading">Loading books...</div>
             <div v-else-if="error">An error occurred: {{ error }}</div>
             <div v-else>
-                <div class="flex">
-                    <Card v-for="book in books" :key="book.key" :subject="{
+                <Grid :items="books" :CardComponent="Card" :cardProps="book => ({
+                    subject: {
                         label: book.title,
                         image: book.cover_id ? `https://covers.openlibrary.org/b/id/${book.cover_id}-L.jpg` : '',
                         description: null,
                         key: book.key,
-                    }" :show-button="true" :button-value="'Add to favorites'"
-                        :handle-click="() => handleCardClick(book)" />
-                </div>
+                    },
+                    showButton: true,
+                    buttonValue: 'Add to favorites',
+                    handleClick: () => handleCardClick(book)
+                })" />
             </div>
         </div>
     </div>

@@ -1,5 +1,7 @@
 <script setup>
 import { useFavoritesStore } from '@/stores/favorites';
+import Card from '@/components/Card.vue';
+import Grid from '@/components/Grid.vue';
 
 const favoritesStore = useFavoritesStore();
 
@@ -14,13 +16,17 @@ const handleRemove = (bookKey) => {
         <div v-if="favoritesStore.favorites.length === 0">
             <p>No favorites yet.</p>
         </div>
-        <div v-else class="flex">
-            <div v-for="book in favoritesStore.favorites" :key="book.key" class="favorite-card">
-                <img v-if="book.cover_id" :src="`https://covers.openlibrary.org/b/id/${book.cover_id}-L.jpg`"
-                    :alt="book.title" style="width:120px; height:180px; object-fit:cover;" />
-                <h4>{{ book.title }}</h4>
-                <button @click="handleRemove(book.key)">Remove</button>
-            </div>
+        <div v-else>
+            <Grid :items="favoritesStore.favorites" :CardComponent="Card" :cardProps="book => ({
+                subject: {
+                    label: book.title,
+                    image: book.cover_id ? `https://covers.openlibrary.org/b/id/${book.cover_id}-L.jpg` : '',
+                    key: book.key
+                },
+                showButton: true,
+                buttonValue: 'Remove',
+                handleClick: () => handleRemove(book)
+            })" />
         </div>
     </div>
 </template>

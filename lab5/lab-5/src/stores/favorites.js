@@ -10,8 +10,8 @@ export const useFavoritesStore = defineStore('favorites', {
         this.favorites.push(book);
       }
     },
-    removeFavorite(bookKey) {
-      this.favorites = this.favorites.filter(b => b.key !== bookKey);
+    removeFavorite(book) {
+      this.favorites = this.favorites.filter(b => b.key !== book.key);
     }
   }
 })
