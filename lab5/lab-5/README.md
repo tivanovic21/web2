@@ -12,7 +12,7 @@ Aplikacija dozvoljava korisnicima da pronađu po 10 knjiga iz nekoliko predodre�
 - [x] koristiti barem jedan lifecycle hook -> src/views/SubjectView.vue
 - [x] routing (više stranica) -> src/router/index.js
 - [x] aplikacija mora biti bookmarkable, tako da rade linkovi (ne samo na root, već i moj-web.com/stranica1, moj-web.com/stranica2) -> src/router/index.js
-- [] dinamičko usmjeravanje s 404 stranicom ("catch all")
+- [x] dinamičko usmjeravanje s 404 stranicom ("catch all") -> src/router/index.js & src/views/NotFound.vue
 - [x] (barem) dvije komponente -> src/components/Card.vue & Grid.vue
 - [x] komponenta bez stanja, koristiti properties -> src/components/Card.vue
 - [] komponenta sa stanjem
