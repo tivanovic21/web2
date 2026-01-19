@@ -13,15 +13,22 @@ const props = defineProps({
         required: true
     }
 });
+
+const emit = defineEmits(['add-to-favorites']);
+
+const handleAddToFavorites = (event) => {
+    emit('add-to-favorites', event);
+};
 </script>
 
 <template>
     <div class="grid">
-        <component v-for="item in items" :is="CardComponent" :key="item.key" v-bind="cardProps(item)" />
+        <component v-for="item in items" :is="CardComponent" :key="item.key" v-bind="cardProps(item)"
+            @add-to-favorites="handleAddToFavorites" />
     </div>
 </template>
 
-<style scoped>
+<style lang="css" scoped>
 .grid {
     display: flex;
     flex-wrap: wrap;

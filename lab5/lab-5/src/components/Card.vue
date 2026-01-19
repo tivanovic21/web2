@@ -16,15 +16,32 @@ const props = defineProps({
     },
     handleClick: {
         type: Function,
-        required: true
+        required: false,
+        default: null
+    },
+    bookData: {
+        type: Object,
+        required: false,
+        default: null
     }
 });
-const subject = props.subject;
-const handleClick = props.handleClick;
-const showButton = props.showButton;
-const buttonValue = props.buttonValue;
-</script>
 
+const emit = defineEmits(['add-to-favorites']);
+
+const handleClickEvent = () => {
+    if (props.handleClick) {
+        props.handleClick();
+    } else if (props.showButton && props.bookData) {
+        emit('add-to-favorites', props.bookData);
+    }
+};
+
+const handleCardBodyClick = () => {
+    if (props.handleClick) {
+        props.handleClick();
+    }
+};
+</script>
 
 <template>
     <div class="card-body-button" v-if="showButton && buttonValue">
@@ -34,10 +51,10 @@ const buttonValue = props.buttonValue;
         <div class="card-info">
             <h3 class="card-title">{{ subject.label }}</h3>
             <p class="card-description">{{ subject.description }}</p>
-            <button @click.stop="handleClick">{{ buttonValue }}</button>
+            <button @click.stop="handleClickEvent">{{ buttonValue }}</button>
         </div>
     </div>
-    <div class="card-body" v-else @click="handleClick">
+    <div class="card-body" v-else @click="handleCardBodyClick">
         <div class="card-image">
             <img :src="subject.image" :alt="subject.label" class="card-img" />
         </div>
@@ -48,7 +65,7 @@ const buttonValue = props.buttonValue;
     </div>
 </template>
 
-<style scoped>
+<style lang="css" scoped>
 .card-image img {
     border-radius: 4px;
 }

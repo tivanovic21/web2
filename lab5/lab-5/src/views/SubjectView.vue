@@ -13,8 +13,12 @@ const genre = SubjectEnum.find(s => s.key === subjectKey);
 const { books, loading, error, fetchBooks } = useSubjectBooks(subjectKey);
 const favoritesStore = useFavoritesStore();
 
-const handleCardClick = (book) => {
+const handleAddToFavorites = (book) => {
     favoritesStore.addFavorite(book);
+};
+
+const isInFavorites = (bookKey) => {
+    return favoritesStore.favorites.some(fav => fav.key === bookKey);
 };
 
 onMounted(async () => {
@@ -36,10 +40,10 @@ onMounted(async () => {
                         description: null,
                         key: book.key,
                     },
-                    showButton: true,
+                    showButton: !isInFavorites(book.key),
                     buttonValue: 'Add to favorites',
-                    handleClick: () => handleCardClick(book)
-                })" />
+                    bookData: book
+                })" @add-to-favorites="handleAddToFavorites" />
             </div>
         </div>
     </div>

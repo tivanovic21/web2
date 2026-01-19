@@ -31,7 +31,7 @@ const handleRemove = (bookKey) => {
     </div>
 </template>
 
-<style scoped>
+<style lang="css" scoped>
 .flex {
     display: flex;
     flex-wrap: wrap;
