@@ -1,44 +1,22 @@
+
 # lab-5
 
-This template should help get you started developing with Vue 3 in Vite.
+## Zahtjevi aplikacije
 
-## Recommended IDE Setup
+- [x] interpolation/one-way binding -> src/components/Card.vue
+- [ ] two-way binding
+- [x] methods -> src/components/Card.vue
+- [ ] computed properties
+- [x] barem jedan scoped style -> src/components/Card.vue
+- [ ] koristiti barem jedan lifecycle hook
+- [x] routing (više stranica) -> src/router/index.js
+- [x] aplikacija mora biti bookmarkable, tako da rade linkovi (ne samo na root, već i moj-web.com/stranica1, moj-web.com/stranica2) -> src/router/index.js
+- [] dinamičko usmjeravanje s 404 stranicom ("catch all")
+- [] (barem) dvije komponente
+- [x] komponenta bez stanja, koristiti properties -> src/components/Card.vue
+- [] komponenta sa stanjem
+- [ ] barem jedna komponenta mora emitirati barem jedan event
+- [] store (Pinia)
+- [x] asinkroni dohvat podataka s backenda, možete: koristiti Firebase ili Back4App, Mocky, itd. vlastiti storage, ili možete mock napraviti, držati podatke u memoriji, ali mora biti asinkroni poziv/upis ostvariti asinkrono -> src/views/SubjectView.vue (logika dohvata u src/hooks/useSubjectBooks.js)
+- [ ] (lazy, po potrebi) učitavanje nekog dijela aplikacije (stranice ili komponente)
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
-
-## Recommended Browser Setup
-
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vite.dev/config/).
-
-## Project Setup
-
-```sh
-bun install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
-bun dev
-```
-
-### Compile and Minify for Production
-
-```sh
-bun run build
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-bun lint
-```

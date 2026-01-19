@@ -11,19 +11,18 @@
 </template>
 
 <script setup>
-
 const props = defineProps({
     subject: {
         type: Object,
         required: true
+    },
+    handleClick: {
+        type: Function,
+        required: true
     }
 });
-
 const subject = props.subject;
-
-const handleClick = () => {
-    alert(`Odabrali ste predmet: ${subject.key}`);
-}
+const handleClick = props.handleClick;
 </script>
 
 <style scoped>
