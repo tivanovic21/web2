@@ -13,6 +13,11 @@ const props = defineProps({
     cardProps: {
         type: Function,
         required: true
+    },
+    showCounter: {
+        type: Boolean,
+        required: false,
+        default: false
     }
 });
 
@@ -32,7 +37,8 @@ watch(() => props.items, (newVal) => {
 
 <template>
     <div>
-        <div class="grid-header">Showing <strong>{{ count }}</strong> {{ count === 1 ? 'item' : 'items' }}</div>
+        <div v-if="showCounter" class="grid-header">Showing <strong>{{ count }}</strong> {{ count === 1 ? 'item' :
+            'items' }}</div>
         <div class="grid">
             <component v-for="item in items" :is="CardComponent" :key="item.key" v-bind="cardProps(item)"
                 @add-to-favorites="handleAddToFavorites" />

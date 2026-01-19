@@ -68,7 +68,7 @@ const filteredBooks = computed(() => {
                     showButton: !isInFavorites(book.key),
                     buttonValue: 'Add to favorites',
                     bookData: book
-                })" @add-to-favorites="handleAddToFavorites" />
+                })" @add-to-favorites="handleAddToFavorites" :showCounter="true" />
             </div>
         </div>
     </div>
