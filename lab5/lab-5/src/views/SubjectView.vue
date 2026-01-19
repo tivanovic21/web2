@@ -1,3 +1,28 @@
+<script setup>
+import { onMounted } from 'vue';
+import { useRoute } from 'vue-router';
+import { useSubjectBooks } from '@/hooks/useSubjectBooks';
+import Card from '@/components/Card.vue';
+import { SubjectEnum } from '@/models/SubjectEnum';
+import { useFavoritesStore } from '@/stores/favorites';
+
+const route = useRoute();
+const subjectKey = route.params.subjectKey;
+const genre = SubjectEnum.find(s => s.key === subjectKey);
+const { books, loading, error, fetchBooks } = useSubjectBooks(subjectKey);
+const favoritesStore = useFavoritesStore();
+
+const handleCardClick = (book) => {
+    if (window.confirm(`Add "${book.title}" to favorites?`)) {
+        favoritesStore.addFavorite(book);
+    }
+};
+
+onMounted(async () => {
+    await fetchBooks();
+});
+</script>
+
 <template>
     <div class="col">
         <h1>Genre: {{ genre.label }}</h1>
@@ -11,31 +36,13 @@
                         image: book.cover_id ? `https://covers.openlibrary.org/b/id/${book.cover_id}-L.jpg` : '',
                         description: null,
                         key: book.key,
-                    }" :handle-click="() => { }" />
+                    }" :show-button="true" :button-value="'Add to favorites'"
+                        :handle-click="() => handleCardClick(book)" />
                 </div>
             </div>
         </div>
     </div>
 </template>
-
-<script setup>
-import { onMounted } from 'vue';
-import { useRoute } from 'vue-router';
-import { useSubjectBooks } from '@/hooks/useSubjectBooks';
-import Card from '@/components/Card.vue';
-import { SubjectEnum } from '@/models/SubjectEnum';
-
-const route = useRoute();
-const subjectKey = route.params.subjectKey;
-
-const genre = SubjectEnum.find(s => s.key === subjectKey);
-
-const { books, loading, error, fetchBooks } = useSubjectBooks(subjectKey);
-
-onMounted(async () => {
-    await fetchBooks();
-});
-</script>
 
 <style scoped>
 .flex {

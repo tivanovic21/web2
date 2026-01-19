@@ -1,12 +1,3 @@
-<template>
-    <div class="col">
-        <h1>Welcome to the Book Explorer</h1>
-        <div class="flex">
-            <Card v-for="book in SubjectEnum" :key="book.key" :subject="book" :handle-click="() => handleClick(book)" />
-        </div>
-    </div>
-</template>
-
 <script setup>
 import Card from '@/components/Card.vue';
 import { SubjectEnum } from '@/models/SubjectEnum';
@@ -16,6 +7,15 @@ const handleClick = (book) => {
     router.push({ name: 'subject', params: { subjectKey: book.key } });
 }
 </script>
+
+<template>
+    <div class="col">
+        <h1>Welcome to the Book Explorer</h1>
+        <div class="flex">
+            <Card v-for="book in SubjectEnum" :key="book.key" :subject="book" :handle-click="() => handleClick(book)" />
+        </div>
+    </div>
+</template>
 
 <style lang="css" scoped>
 .flex {
