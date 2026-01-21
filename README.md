@@ -86,7 +86,7 @@ Nakon toga aplikacija bi se trebala pokrenuti na [[http://localhost:3000](http:/
 
 
 ### POKRETANJE LAB2
-[Poveznica na aplikaciju u cloud-u](https://web2-1oqm.onrender.com)
+~~[Poveznica na aplikaciju u cloud-u](https://web2-1oqm.onrender.com)~~ - aplikacija više nije hostana online
 
 1) Kreirati vlastiti `.env` dokument sa sljedećom strukturom:
 
@@ -121,3 +121,14 @@ Ostatak procesa provodi se standardno prema prije navedenim uputama oko pokretan
 
 1) Pozicionirati se u root direktorij treće laboratorijske vježbe (lab3)
 2) Otvoriti breakout.html u pregledniku po želji
+
+### POKRETANJE LAB5
+[Poveznica na aplikaciju u cloud-u](https://web2-vue-3lyo.onrender.com)
+
+1) Pozicioniraati se u root direktoriji pete laboratorijske vježbe (lab5/lab-5)
+2) Pokrenuti naredbe za instalaciju paketa i pokretanje development servera (ja sam koristio `bun` ali radi i sa `npm`)
+
+```console
+npm install
+npm run dev
+```

@@ -1,6 +1,23 @@
-
 # Book Explorer
 Aplikacija dozvoljava korisnicima da pronađu po 10 knjiga iz nekoliko predodređenih žanrova te ih dodaju u favorite. 
+
+## Pokretanje aplikacije
+
+Iako sam ja radio aplikaciju koristeći `bun`, aplikacija bi se trebala najnormalnije pokrenuti i sa `npm` komandama. Samo treba pripaziti da se nalazite u `web2/lab5/lab-5/` direktoriju. 
+
+```console
+npm install
+npm run dev
+```
+
+Ukoliko npm slučajno ne radi, bun se može preuzeti preko njihove [https://bun.com](web stranice). Komande za pokretanje su iste kao kod npm-a, samo se koristi ključna riječ bun.
+
+```console
+bun install
+bun run dev
+```
+
+Ovo sve uzima u obzir `dev` način rada, na cloud-u aplikacija je pokrenuta u produkcijskoj okolini te se nalazi na sljedećoj [https://web2-vue-3lyo.onrender.com](poveznici).
 
 ## Zahtjevi aplikacije
 
